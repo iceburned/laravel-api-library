@@ -15,12 +15,29 @@ class UserWriteService
 
     public function createUser($data){
 
-        return $this->userWriteRepository->createUser($data);
+        $dataArray = [
+            'name' => $data['name'],
+            "email" => $data['email'],
+            "phone" => $data['phone'],
+            "password" => $data['password'],
+        ];
+
+        return $this->userWriteRepository->createUser($dataArray);
     }
 
-    public function updateUser($id, $data){
+    public function updateUser($data){
+        $id = $data["user_id"];
 
-        return $this->userWriteRepository->updateUser($id, $data);
+        $fieldsToUpdate = [
+            'name' => $data['name'] ?? null,
+            'email' => $data['email'] ?? null,
+            'phone' => $data['phone'] ?? null,
+            'password' => $data['password'] ?? null,
+        ];
+
+        $filteredFields = array_filter($fieldsToUpdate, fn($value) => $value !== null);
+
+        return $this->userWriteRepository->updateUser($id, $filteredFields);
     }
 
     public function deleteUser($id){
