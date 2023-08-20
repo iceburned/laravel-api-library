@@ -17,6 +17,7 @@ class BookWriteService
 
         $dataArray = [
             'name' => $data['name'],
+            'author_id' => $data['author_id']
         ];
 
         return $this->bookWriteRepository->createBook($dataArray);

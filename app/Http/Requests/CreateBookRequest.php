@@ -9,7 +9,8 @@ class CreateBookRequest extends FormRequest
     public function rules()
     {
         return [
-            "book_id" => "required|integer"
+            "name" => "required|string",
+            "author_id" => "required|integer"
         ];
     }
 }
