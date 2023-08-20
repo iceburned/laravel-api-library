@@ -3,15 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateUserRequest;
+use App\Http\Requests\DeleteUserRequest;
 use App\Http\Requests\GetUserRequest;
 use App\Http\Requests\UpdateUserRequest;
-use App\Interfaces\UserReadInterface;
-use App\Interfaces\UserWriteInterface;
 use App\Services\UserReadService;
 use App\Services\UserWriteService;
 use Exception;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
+
 
 
 class UserController extends Controller
@@ -32,18 +30,9 @@ class UserController extends Controller
         return response()->json($users);
     }
 
-    public function getUser($id)
+    public function getUser(GetUserRequest $request)
     {
-
-        $validator = Validator::make(['id' => $id], [
-            'id' => ['required', 'integer'],
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json(['error' => 'Invalid input'], 400);
-        }
-
-        $user = $this->userReadService->getUserById($id);
+        $user = $this->userReadService->getUserById($request->user_id);
 
         return response()->json($user);
     }
@@ -76,19 +65,10 @@ class UserController extends Controller
         return response()->json($user);
     }
 
-    public function deleteUser($id)
+    public function deleteUser(DeleteUserRequest $request)
     {
-
-        $validator = Validator::make(['id' => $id], [
-            'id' => ['required', 'integer'],
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json(['error' => 'Invalid input'], 400);
-        }
-
         try {
-            $user = $this->userWriteService->deleteUser($id);
+            $user = $this->userWriteService->deleteUser($request->user_id);
         } catch (Exception $e) {
             //TODO: Logging
         }

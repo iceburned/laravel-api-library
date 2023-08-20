@@ -1,6 +1,8 @@
 <?php
 
 
+use App\Http\Controllers\AuthorController;
+use App\Http\Controllers\BookController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -21,7 +23,20 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('/get-all-users', [UserController::class, "getAllUsers"]);
-Route::get('/get-user/{id}', [UserController::class, "getUser"]);
+Route::post('/get-user', [UserController::class, "getUser"]);
 Route::post('/create-user', [UserController::class, "createUser"]);
 Route::put('/update-user', [UserController::class, "updateUser"]);
-Route::post('/delete-user/{id}', [UserController::class, "deleteUser"]);
+Route::post('/delete-user', [UserController::class, "deleteUser"]);
+
+Route::get('/get-all-authors', [AuthorController::class, "getAllAuthors"]);
+Route::post('/get-author', [AuthorController::class, "getAuthor"]);
+Route::post('/create-author', [AuthorController::class, "createAuthor"]);
+Route::post('/update-author', [AuthorController::class, "updateAuthor"]);
+Route::post('/delete-author', [AuthorController::class, "deleteAuthor"]);
+
+Route::get('/get-all-books', [BookController::class, "getAllBooks"]);
+Route::post('/get-book', [BookController::class, "getBook"]);
+Route::post('/create-book', [BookController::class, "createBook"]);
+Route::post('/update-book', [BookController::class, "updateBook"]);
+Route::post('/delete-book', [BookController::class, "deleteBook"]);
+

@@ -12,7 +12,6 @@ class UserReadRepository implements UserReadInterface
         return User::all();
     }
 
-
     public function getUserById($id)
     {
         return User::find($id);
