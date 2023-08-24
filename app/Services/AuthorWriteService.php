@@ -40,6 +40,7 @@ class AuthorWriteService
 
     public function deleteAuthor($id){
         return $this->authorWriteRepository->deleteAuthor($id);
+
     }
 
 }

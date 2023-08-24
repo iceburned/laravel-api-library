@@ -29,6 +29,7 @@ Route::put('/update-user', [UserController::class, "updateUser"]);
 Route::post('/delete-user', [UserController::class, "deleteUser"]);
 
 Route::get('/get-all-authors', [AuthorController::class, "getAllAuthors"]);
+Route::get('/get-author-books', [AuthorController::class, "getAuthorBooks"]);
 Route::post('/get-author', [AuthorController::class, "getAuthor"]);
 Route::post('/create-author', [AuthorController::class, "createAuthor"]);
 Route::post('/update-author', [AuthorController::class, "updateAuthor"]);

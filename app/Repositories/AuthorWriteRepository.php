@@ -3,19 +3,21 @@
 namespace App\Repositories;
 
 use App\Interfaces\AuthorWriteInterface;
-use App\Models\Authors;
+use App\Models\Author;
+use Exception;
+
 
 class AuthorWriteRepository implements AuthorWriteInterface
 {
 
     public function createAuthor($data)
     {
-        return Authors::create($data);
+        return Author::create($data);
     }
 
     public function updateAuthor($id, $data)
     {
-        $author = Authors::find($id);
+        $author = Author::find($id);
 
         if ($author){
             $author->update($data);
@@ -28,14 +30,20 @@ class AuthorWriteRepository implements AuthorWriteInterface
 
     public function deleteAuthor($id)
     {
-        $author = Authors::find($id);
+        $author = Author::find($id);
 
         if ($author){
+            $author->books()->detach();
             $author->delete();
 
-            return true;
+//            event(new AuthorDeleted($author));
+//            Event::dispatch(new AuthorDeleted($author));
+
+            return response()->noContent();
         }
 
-        return false;
+        throw new Exception("Author not found");
     }
+
+
 }

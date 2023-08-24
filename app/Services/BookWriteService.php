@@ -16,7 +16,7 @@ class BookWriteService
     public function createBook($data){
 
         $dataArray = [
-            'name' => $data['name'],
+            'title' => $data['title'],
             'author_id' => $data['author_id']
         ];
 
@@ -37,8 +37,8 @@ class BookWriteService
         return $this->bookWriteRepository->updateBook($id, $filteredFields);
     }
 
-    public function deleteBook($id){
+    public function deleteBook($data){
 
-        return $this->bookWriteRepository->deleteBook($id);
+        return $this->bookWriteRepository->deleteBook($data);
     }
 }

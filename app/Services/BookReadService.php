@@ -19,7 +19,7 @@ class BookReadService
         return $this->bookReadRepository->getAllBooks();
     }
 
-    public function getUserById($id){
+    public function getBookById($id){
 
         return $this->bookReadRepository->getBookById($id);
     }

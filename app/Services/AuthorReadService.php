@@ -3,7 +3,7 @@
 namespace App\Services;
 
 use App\Interfaces\AuthorReadInterface;
-use App\Models\Authors;
+use App\Models\Author;
 
 class AuthorReadService
 {
@@ -23,5 +23,10 @@ class AuthorReadService
     {
 
         return $this->authorReadRepository->getAuthorById($id);
+    }
+
+    public function getAuthorBooks($id)
+    {
+        return $this->authorReadRepository->getAuthorBooks($id);
     }
 }

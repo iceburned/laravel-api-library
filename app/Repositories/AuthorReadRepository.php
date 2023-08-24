@@ -3,19 +3,28 @@
 namespace App\Repositories;
 
 use App\Interfaces\AuthorReadInterface;
-use App\Models\Authors;
-use PharIo\Manifest\Author;
+use App\Models\Author;
+use Exception;
 
 class AuthorReadRepository implements AuthorReadInterface
 {
 
     public function getAllAuthors()
     {
-        return Authors::all();
+        return Author::all();
     }
 
     public function getAuthorById($id)
     {
-        return Authors::find($id);
+        return Author::find($id);
+    }
+
+    public function getAuthorBooks($id)
+    {
+        $author = Author::find($id);
+
+        if (!$author) throw new Exception("Author not found");
+
+        return $author->books()->get();
     }
 }

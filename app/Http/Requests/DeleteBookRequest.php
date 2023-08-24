@@ -9,7 +9,8 @@ class DeleteBookRequest extends FormRequest
     public function rules()
     {
         return [
-            "book_id" => "required|integer"
+            "book_id" => "required|integer",
+            "author_id" => "required|integer"
         ];
     }
 }

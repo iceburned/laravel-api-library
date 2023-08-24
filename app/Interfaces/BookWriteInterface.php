@@ -8,5 +8,5 @@ interface BookWriteInterface
 
     public function updateBook($id, $data);
 
-    public function deleteBook($id);
+    public function deleteBook($data);
 }

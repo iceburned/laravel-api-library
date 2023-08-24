@@ -4,22 +4,19 @@ namespace App\Repositories;
 
 use App\Interfaces\BookWriteInterface;
 use App\Models\Book;
-use App\Models\Authors;
-
-
+use App\Models\Author;
+use Exception;
 
 class BookWriteRepository implements BookWriteInterface
 {
 
     public function createBook($data)
     {
-        $author = Authors::find($data["author_id"]);
+        $author = Author::find($data["author_id"]);
 
-        $book = Book::create(['title' => $data['name']]);
+        if(!$author) throw new Exception("Author cannot be found");
 
-        $author->books()->sync($book);
-
-        return $book;
+        return $author->books()->create(['title' => $data['title']]);
     }
 
     public function updateBook($id, $data)
@@ -32,19 +29,20 @@ class BookWriteRepository implements BookWriteInterface
             return $book;
         }
 
-        return null;
+        throw new Exception("Book cannot be found");
     }
 
-    public function deleteBook($id): ?bool
+    public function deleteBook($data)
     {
-        $book = Book::find($id);
+        $author = Author::find($data["author_id"]);
+        $book = Book::find($data["book_id"]);
 
-        if($book){
-            $book->delete();
+        if(!$author) throw new Exception("Author cannot be found");
+        if(!$book) throw new Exception("Book cannot be found");
 
-            return true;
-        }
+        $author->books()->detach($book);
+        $book->delete();
 
-        return false;
+        return true;
     }
 }

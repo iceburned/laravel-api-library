@@ -5,10 +5,11 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreateBookRequest;
 use App\Http\Requests\DeleteBookRequest;
 use App\Http\Requests\GetBookRequest;
-use App\Http\Requests\UpdateUserRequest;
+use App\Http\Requests\UpdateBookRequest;
 use App\Services\BookReadService;
 use App\Services\BookWriteService;
 use Exception;
+use Illuminate\Support\Facades\Log;
 
 
 class BookController extends Controller
@@ -16,9 +17,8 @@ class BookController extends Controller
     private BookReadService $bookReadService;
     private BookWriteService $bookWriteService;
 
-    public  function __construct(BookReadService $bookReadService, BookWriteService $bookWriteService)
+    public function __construct(BookReadService $bookReadService, BookWriteService $bookWriteService)
     {
-
         $this->bookReadService = $bookReadService;
         $this->bookWriteService = $bookWriteService;
     }
@@ -26,53 +26,56 @@ class BookController extends Controller
     public function getAllBooks()
     {
         $books = $this->bookReadService->getAllBooks();
-
         return response()->json($books);
     }
 
     public function getBook(GetBookRequest $request)
     {
-        $book = $this->bookReadService->getUserById($request->book_id);
-
+        $bookId = $request->book_id;
+        $book = $this->bookReadService->getBookById($bookId);
         return response()->json($book);
     }
 
     public function createBook(CreateBookRequest $request)
     {
-
-        $dataArray = $request->all();
+        $dataArray = $request->validated();
 
         try {
             $book = $this->bookWriteService->createBook($dataArray);
-        } catch (Exception $e) {
-            //TODO: Logging
-        }
+            return response()->json(['message' => 'Book created'], 201);
 
-        return response('Book created!', '201');
+        } catch (Exception $e) {
+            Log::error('Book creation failed: ' . $e->getMessage());
+
+            return response()->json([
+                'message' => 'Book not created',
+                "error" => $e->getMessage(),
+            ], 500);
+        }
     }
 
-    public function updateBook(UpdateUserRequest $request)
+    public function updateBook(UpdateBookRequest $request)
     {
-
-        $dataArray = $request->all();
+        $dataArray = $request->validated();
 
         try {
             $book = $this->bookWriteService->updateBook($dataArray);
+            return response()->json($book);
         } catch (Exception $e) {
-            //TODO: Logging
+            Log::error('Book update failed: ' . $e->getMessage());
+            return response()->json(['message' => 'Book not updated'], 500);
         }
-
-        return response()->json($book);
     }
 
     public function deleteBook(DeleteBookRequest $request)
     {
         try {
-            $book = $this->bookWriteService->deleteBook($request->book_id);
+            $bookId = $request->book_id;
+            $this->bookWriteService->deleteBook($bookId);
+            return response()->json(['message' => 'Book deleted']);
         } catch (Exception $e) {
-            //TODO: Logging
+            Log::error('Book deletion failed: ' . $e->getMessage());
+            return response()->json(['message' => 'Book not deleted'], 500);
         }
-
-        return response('Book deleted!');
     }
 }

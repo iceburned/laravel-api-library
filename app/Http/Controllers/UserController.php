@@ -9,7 +9,7 @@ use App\Http\Requests\UpdateUserRequest;
 use App\Services\UserReadService;
 use App\Services\UserWriteService;
 use Exception;
-
+use Illuminate\Support\Facades\Log;
 
 
 class UserController extends Controller
@@ -37,18 +37,27 @@ class UserController extends Controller
         return response()->json($user);
     }
 
-    public function createUser(CreateUserRequest $request)
+    public function GetAllBooks($userId)
     {
 
+    }
+
+    public function AssignBook($bookId)
+    {
+
+    }
+
+    public function createUser(CreateUserRequest $request)
+    {
         $dataArray = $request->all();
 
         try {
             $user = $this->userWriteService->createUser($dataArray);
-        } catch (Exception $e) {
-            //TODO: Logging
-        }
 
-        return response('User created!', '201');
+            return response('User created!', '201');
+        } catch (Exception $e) {
+            Log::error("User was not created:" . $e->getMessage());
+        }
     }
 
     public function updateUser(UpdateUserRequest $request)
@@ -58,21 +67,21 @@ class UserController extends Controller
 
         try {
             $user = $this->userWriteService->updateUser($dataArray);
-        } catch (Exception $e) {
-            //TODO: Logging
-        }
 
-        return response()->json($user);
+            return response()->json($user);
+        } catch (Exception $e) {
+            Log::error("User was not updated:" . $e->getMessage());
+        }
     }
 
     public function deleteUser(DeleteUserRequest $request)
     {
         try {
             $user = $this->userWriteService->deleteUser($request->user_id);
-        } catch (Exception $e) {
-            //TODO: Logging
-        }
 
-        return response('User deleted!');
+            return response('User deleted!');
+        } catch (Exception $e) {
+            Log::error("User was not deleted:" . $e->getMessage());
+        }
     }
 }

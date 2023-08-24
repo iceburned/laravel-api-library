@@ -11,11 +11,13 @@ class Book extends Model
 
     protected $fillable = [
         'title',
+//        'book_id',
+//        'author_id',
     ];
 
     public function authors()
     {
-        return $this->belongsToMany(Authors::class, 'books_authors');
+        return $this->belongsToMany(Author::class, 'books_authors', 'book_id', 'author_id');
     }
 
     public function users()
