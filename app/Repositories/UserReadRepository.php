@@ -16,4 +16,9 @@ class UserReadRepository implements UserReadInterface
     {
         return User::find($id);
     }
+
+    public function GetUserBooks($id)
+    {
+        $ads =User::where('id', $id)->first();
+    }
 }

@@ -22,4 +22,9 @@ class UserReadService
 
         return $this->userReadRepository->getUserById($id);
     }
+
+    public function GetUserBooks($id)
+    {
+        return $this->userReadRepository->GetUserBooks($id);
+    }
 }

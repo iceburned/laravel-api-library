@@ -44,4 +44,12 @@ class UserWriteService
 
         return $this->userWriteRepository->deleteUser($id);
     }
+
+    public function AssignBook($data)
+    {
+        $userId = $data["user_id"];
+        $bookId = $data["book_id"];
+
+        return $this->userWriteRepository->AssignBook($userId, $bookId);
+    }
 }

@@ -9,4 +9,6 @@ interface UserWriteInterface
     public function updateUser($id, $data);
 
     public function deleteUser($id);
+
+    public function AssignBook($userId, $bookId);
 }

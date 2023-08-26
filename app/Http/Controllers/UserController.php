@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AssignBookRequest;
 use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\DeleteUserRequest;
+use App\Http\Requests\GetUserBooksRequest;
 use App\Http\Requests\GetUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Services\UserReadService;
 use App\Services\UserWriteService;
 use Exception;
+use http\Env\Response;
 use Illuminate\Support\Facades\Log;
 
 
@@ -37,14 +40,28 @@ class UserController extends Controller
         return response()->json($user);
     }
 
-    public function GetAllBooks($userId)
+    public function GetUserBooks(GetUserBooksRequest $request)
     {
+        $validated = $request->validated();
 
+        $books = $this->userReadService->GetUserBooks($validated['id']);
+
+        return response()->json($books);
     }
 
-    public function AssignBook($bookId)
+    public function AssignBook(AssignBookRequest $request)
     {
+        $validated = $request->validated();
 
+        try {
+            $book = $this->userWriteService->AssignBook($validated);
+
+            return response()->json($book);
+        }catch (Exception $e){
+            Log::error("Book was not assigned:" . $e->getMessage());
+
+            return response($e->getMessage(), 500);
+        }
     }
 
     public function createUser(CreateUserRequest $request)
