@@ -1,15 +1,15 @@
 <?php
 
 namespace Database\Factories;
-
-use Faker\Factory;
+use Illuminate\Database\Eloquent\Factories\Factory;
+//use Faker\Factory;
 
 class BookFactory extends Factory
 {
     public function definition(): array
     {
         return [
-            'name' => fake()->name(),
+            'title' => $this->faker->name(),
         ];
     }
 }
