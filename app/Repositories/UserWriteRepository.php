@@ -62,4 +62,22 @@ class UserWriteRepository implements UserWriteInterface
 
         return "Book assigned successfully.";
     }
+
+    public function unAssignBook($userId, $bookId)
+    {
+        $user = User::find($userId);
+        $book = Book::find($bookId);
+
+        if(!$user || !$book){
+            throw new Exception("User or book were not validated!");
+        }
+
+        if (!$user->books->contains($book)) {
+            throw new Exception("The book is not assigned to the user.");
+        }
+
+        $user->books()->detach($book);
+
+        return "Book  was unassigned successfully.";
+    }
 }

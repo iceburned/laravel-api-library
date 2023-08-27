@@ -56,10 +56,10 @@ class BookController extends Controller
 
     public function updateBook(UpdateBookRequest $request)
     {
-        $dataArray = $request->validated();
+        $validated = $request->validated();
 
         try {
-            $book = $this->bookWriteService->updateBook($dataArray);
+            $book = $this->bookWriteService->updateBook($validated);
             return response()->json($book);
         } catch (Exception $e) {
             Log::error('Book update failed: ' . $e->getMessage());
@@ -69,9 +69,10 @@ class BookController extends Controller
 
     public function deleteBook(DeleteBookRequest $request)
     {
+        $validated = $request->validated();
+
         try {
-            $bookId = $request->book_id;
-            $this->bookWriteService->deleteBook($bookId);
+            $this->bookWriteService->deleteBook($validated);
             return response()->json(['message' => 'Book deleted']);
         } catch (Exception $e) {
             Log::error('Book deletion failed: ' . $e->getMessage());

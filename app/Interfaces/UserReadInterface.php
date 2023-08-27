@@ -8,5 +8,5 @@ interface UserReadInterface
 
     public function getUserById($id);
 
-    public function GetUserBooks($id);
+    public function getUserBooks($id);
 }

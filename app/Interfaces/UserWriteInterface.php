@@ -10,5 +10,7 @@ interface UserWriteInterface
 
     public function deleteUser($id);
 
-    public function AssignBook($userId, $bookId);
+    public function assignBook($userId, $bookId);
+
+    public function unAssignBook($userId, $bookId);
 }

@@ -11,8 +11,8 @@ class Book extends Model
 
     protected $fillable = [
         'title',
-//        'book_id',
-//        'author_id',
+        'book_id',
+        'author_id',
     ];
 
     public function authors()

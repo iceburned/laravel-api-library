@@ -28,8 +28,7 @@ class BookWriteService
         $id = $data["book_id"];
 
         $fieldsToUpdate = [
-            'name' => $data['name'] ?? null,
-
+            'title' => $data['title'],
         ];
 
         $filteredFields = array_filter($fieldsToUpdate, fn($value) => $value !== null);

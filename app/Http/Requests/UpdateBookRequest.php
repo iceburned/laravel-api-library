@@ -9,7 +9,8 @@ class UpdateBookRequest extends FormRequest
     public function rules()
     {
         return [
-            "name" => "required|string"
+            "book_id" => "required|integer",
+            "title" => "required|string"
         ];
     }
 }

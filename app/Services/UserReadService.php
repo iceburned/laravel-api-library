@@ -23,8 +23,8 @@ class UserReadService
         return $this->userReadRepository->getUserById($id);
     }
 
-    public function GetUserBooks($id)
+    public function getUserBooks($id)
     {
-        return $this->userReadRepository->GetUserBooks($id);
+        return $this->userReadRepository->getUserBooks($id);
     }
 }
